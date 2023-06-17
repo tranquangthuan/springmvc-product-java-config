@@ -8,7 +8,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import thuan.com.fa.demomvc.auth.ApplicationUserService;
 
@@ -37,7 +41,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.logout()
 			.invalidateHttpSession(true)
-			.clearAuthentication(true);
+			.clearAuthentication(true)
+			.and()
+			.exceptionHandling()
+			.accessDeniedPage("/WEB-INF/jsp/accessDenied.jsp");;
 		// @formatter:on
 	}
 
@@ -54,16 +61,16 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(authenticationProvider());
 	}
 
-//	@Bean
-//	public UserDetailsService userDetailsService() {
-//		UserDetails anna = User.builder().username("anna").password(passwordEncoder.encode("123456"))
-//				.roles(STUDENT.name()).authorities(STUDENT.grantedAuthorities()).build();
-//
-//		UserDetails linda = User.builder().username("linda").password(passwordEncoder.encode("123456"))
-//				.roles(ADMIN.name()).authorities(ADMIN.grantedAuthorities()).build();
-//
-//		UserDetails tom = User.builder().username("tom").password(passwordEncoder.encode("123456"))
-//				.roles(ADMIN_TRAINEE.name()).authorities(ADMIN_TRAINEE.grantedAuthorities()).build();
-//		return new InMemoryUserDetailsManager(anna, linda, tom);
-//	}
+	@Bean
+	public UserDetailsService userDetailsService() {
+		UserDetails anna = User.builder().username("anna").password(passwordEncoder.encode("123456"))
+				.roles(UserRole.STUDENT.name()).authorities(UserRole.STUDENT.grantedAuthorities()).build();
+
+		UserDetails linda = User.builder().username("linda").password(passwordEncoder.encode("123456"))
+				.roles(UserRole.ADMIN.name()).authorities(UserRole.ADMIN.grantedAuthorities()).build();
+
+		UserDetails tom = User.builder().username("tom").password(passwordEncoder.encode("123456"))
+				.roles(UserRole.ADMIN_TRAINEE.name()).authorities(UserRole.ADMIN_TRAINEE.grantedAuthorities()).build();
+		return new InMemoryUserDetailsManager(anna, linda, tom);
+	}
 }
