@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h3>Ban khong co quyen truy cap</h3>
+	${msg}
 </body>
 </html>

@@ -44,7 +44,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 			.clearAuthentication(true)
 			.and()
 			.exceptionHandling()
-			.accessDeniedPage("/WEB-INF/jsp/accessDenied.jsp");;
+			.accessDeniedPage("/login/403");;
 		// @formatter:on
 	}
 
