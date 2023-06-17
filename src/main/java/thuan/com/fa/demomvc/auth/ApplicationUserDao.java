@@ -2,6 +2,8 @@ package thuan.com.fa.demomvc.auth;
 
 import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 public interface ApplicationUserDao {
-    public Optional<ApplicationUser> selectApplicationUserByUsername(String username);
+	public Optional<UserDetails> selectApplicationUserByUsername(String username);
 }

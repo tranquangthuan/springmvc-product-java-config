@@ -11,8 +11,11 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public enum UserRole {
-	STUDENT(Set.of(STUDENT_WRITE, STUDENT_READ)), ADMIN_TRAINEE(Set.of(COURSE_READ, STUDENT_READ)),
+	// @formatter:off
+	STUDENT(Set.of(STUDENT_WRITE, STUDENT_READ)), 
+	ADMIN_TRAINEE(Set.of(COURSE_READ, STUDENT_READ)),
 	ADMIN(Set.of(COURSE_READ, COURSE_WRITE, STUDENT_READ, STUDENT_WRITE));
+	// @formatter:on
 
 	private final Set<UserPermissions> permissions;
 
@@ -30,6 +33,16 @@ public enum UserRole {
 		permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
 
 		return permissions;
+	}
+
+	public UserRole of(String userRole) {
+
+		for (UserRole role : UserRole.values()) {
+			if (role.name().equalsIgnoreCase(userRole)) {
+				return role;
+			}
+		}
+		throw new IllegalArgumentException(String.format("%S not exist", userRole));
 	}
 
 }
