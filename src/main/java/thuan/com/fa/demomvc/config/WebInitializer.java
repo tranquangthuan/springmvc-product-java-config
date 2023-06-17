@@ -14,7 +14,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] { MVCconfig.class };
+		return new Class[] { MVCconfig.class, ApplicationSecurityConfig.class };
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,14 +44,14 @@ public class ProductController {
 	}
 
 	@GetMapping("/add")
+	@PreAuthorize("hasAuthority('student:write')")
 	public String showAddForm(Model model) {
 		model.addAttribute("productForm", new Product());
 		return "/product/new";
 	}
 
 	@PostMapping("/save")
-	public String addNewProduct(@ModelAttribute(name = "productForm") @Valid Product product, 
-			BindingResult result) {
+	public String addNewProduct(@ModelAttribute(name = "productForm") @Valid Product product, BindingResult result) {
 		if (result.hasErrors()) {
 			return "/product/new";
 		}
