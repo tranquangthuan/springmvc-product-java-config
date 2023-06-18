@@ -33,7 +33,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers("/", "/index", "/static/**", "/css/**", "/js/**")
 			.permitAll()
-			.antMatchers("/product/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ADMIN_TRAINEE.name())
+			.antMatchers("/product/**")
+			.hasAnyRole(UserRole.ADMIN.name())
 			.anyRequest()
 			.authenticated()
 			.and()
@@ -63,14 +64,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		UserDetails anna = User.builder().username("anna").password(passwordEncoder.encode("123456"))
-				.roles(UserRole.STUDENT.name()).authorities(UserRole.STUDENT.grantedAuthorities()).build();
+		UserDetails user = User.builder().username("user").password(passwordEncoder.encode("123456"))
+				.roles(UserRole.MEMBER.name()).build();
 
-		UserDetails linda = User.builder().username("linda").password(passwordEncoder.encode("123456"))
-				.roles(UserRole.ADMIN.name()).authorities(UserRole.ADMIN.grantedAuthorities()).build();
-
-		UserDetails tom = User.builder().username("tom").password(passwordEncoder.encode("123456"))
-				.roles(UserRole.ADMIN_TRAINEE.name()).authorities(UserRole.ADMIN_TRAINEE.grantedAuthorities()).build();
-		return new InMemoryUserDetailsManager(anna, linda, tom);
+		UserDetails admin = User.builder().username("admin").password(passwordEncoder.encode("123456"))
+				.roles(UserRole.ADMIN.name()).build();
+		return new InMemoryUserDetailsManager(user, admin);
 	}
 }

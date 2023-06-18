@@ -1,7 +1,5 @@
 package thuan.com.fa.demomvc.auth;
 
-import static thuan.com.fa.demomvc.config.UserRole.STUDENT;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -25,16 +23,13 @@ public class FakeApplicationUserRepository implements ApplicationUserDao {
 	}
 
 	private List<UserDetails> getApplicationUsers() {
-		UserDetails anna = User.builder().username("anna").password(passwordEncoder.encode("123456"))
-				.authorities(STUDENT.grantedAuthorities()).build();
+		UserDetails user = User.builder().username("user").password(passwordEncoder.encode("123456"))
+				.roles(UserRole.MEMBER.name()).build();
 
-		UserDetails tom = User.builder().username("tom").password(passwordEncoder.encode("123456"))
-				.authorities(UserRole.ADMIN_TRAINEE.grantedAuthorities()).build();
+		UserDetails admin = User.builder().username("admin").password(passwordEncoder.encode("123456"))
+				.roles(UserRole.ADMIN.name()).build();
 
-		UserDetails linda = User.builder().username("linda").password(passwordEncoder.encode("123456"))
-				.authorities(UserRole.ADMIN.grantedAuthorities()).build();
-
-		List<UserDetails> applicationUsers = List.of(anna, tom, linda);
+		List<UserDetails> applicationUsers = List.of(user, admin);
 
 		return applicationUsers;
 	}

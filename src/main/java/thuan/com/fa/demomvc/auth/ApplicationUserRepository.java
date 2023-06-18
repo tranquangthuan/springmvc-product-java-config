@@ -31,10 +31,9 @@ public class ApplicationUserRepository implements ApplicationUserDao {
 		AppUser userDB = session.find(AppUser.class, username);
 		if (userDB != null) {
 			String role = userDB.getRole();
-			UserRole userRole = UserRole.valueOf(role.toUpperCase());
+			UserRole userRole = UserRole.of(role.toUpperCase());
 			UserDetails userDetails = User.builder().username(userDB.getUsername())
-					.password(passwordEncoder.encode(userDB.getPassword())).authorities(userRole.grantedAuthorities())
-					.build();
+					.password(passwordEncoder.encode(userDB.getPassword())).roles(userRole.name()).build();
 			return Optional.of(userDetails);
 		}
 		return Optional.empty();
