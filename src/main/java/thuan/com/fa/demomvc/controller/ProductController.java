@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,7 +43,6 @@ public class ProductController {
 	}
 
 	@GetMapping("/add")
-	@PreAuthorize("hasAuthority('student:write')")
 	public String showAddForm(Model model) {
 		model.addAttribute("productForm", new Product());
 		return "/product/new";
@@ -60,8 +58,8 @@ public class ProductController {
 	}
 
 	@GetMapping("/delete")
-	public String delete(@RequestParam(name = "id") long productId, @RequestParam(name = "age") long age) {
-		System.out.println(" id = " + productId + "age = " + age);
+	public String delete(@RequestParam(name = "id") long productId) {
+		System.out.println(" id = " + productId);
 		// localhost:xxx/product/delete?id=10&age=20&address=DN
 		productServiceImpl.delete(productId);
 		return "redirect:/product/list";
