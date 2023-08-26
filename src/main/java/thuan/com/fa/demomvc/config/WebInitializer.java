@@ -1,6 +1,7 @@
 package thuan.com.fa.demomvc.config;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -28,6 +29,11 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		characterEncodingFilter.setEncoding("UTF-8");
 		characterEncodingFilter.setForceEncoding(true);
 		return new Filter[] { characterEncodingFilter };
+	}
+
+	@Override
+	protected void customizeRegistration(Dynamic registration) {
+		registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
 	}
 
 }

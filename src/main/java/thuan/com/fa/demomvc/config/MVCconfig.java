@@ -1,5 +1,6 @@
 package thuan.com.fa.demomvc.config;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -16,11 +17,14 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import thuan.com.fa.demomvc.interceptor.PerformanceInterceptor;
 
 @Configuration
 @ComponentScan({ "thuan.com.fa.demomvc" })
@@ -85,6 +89,13 @@ public class MVCconfig implements WebMvcConfigurer {
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
 		transactionManager.setSessionFactory(sessionFactory().getObject());
 		return transactionManager;
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(new PerformanceInterceptor());
+		registry.addInterceptor(new PerformanceInterceptor())
+				.excludePathPatterns(List.of("/", "/index", "/static/**", "/resources/**", "/js/**"));
 	}
 
 }

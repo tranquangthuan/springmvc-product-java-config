@@ -31,7 +31,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 		// @formatter:off
 		http
 			.authorizeRequests()
-			.antMatchers("/", "/index", "/static/**", "/css/**", "/js/**")
+			.antMatchers("/", "/index", "/static/**", "/resources/**", "/js/**")
 			.permitAll()
 			.antMatchers("/product/**")
 			.hasAnyRole(UserRole.ADMIN.name())
