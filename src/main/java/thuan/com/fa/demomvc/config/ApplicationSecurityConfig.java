@@ -13,8 +13,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 
 import thuan.com.fa.demomvc.auth.ApplicationUserService;
+import thuan.com.fa.demomvc.filter.EncodingFilter;
 
 @Configuration
 @EnableWebSecurity()
@@ -29,6 +31,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
+		http.addFilterBefore(new EncodingFilter(), ChannelProcessingFilter.class);
 		http
 			.authorizeRequests()
 			.antMatchers("/", "/index", "/static/**", "/resources/**", "/js/**")
