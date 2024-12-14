@@ -33,6 +33,7 @@ public class ProductController {
 
 	@GetMapping("/list")
 	public String getAllProductWithPageAble(Model model, @RequestParam(defaultValue = "1") Integer page) {
+		
 		PageAble pageAble = new PageAble(page);
 		List<Product> products = productServiceImpl.findWithPageAble(pageAble);
 		model.addAttribute("products", products);
